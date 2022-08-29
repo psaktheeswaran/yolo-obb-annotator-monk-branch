@@ -18,7 +18,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr, int argc=0, char *argv[]=nullptr);
     ~MainWindow();
 
 private slots:
@@ -70,6 +70,9 @@ private:
 
     void            open_img_dir(bool&);
     void            open_obj_file(bool&);
+
+    void            open_img_dir(char *);
+    void            open_obj_file(char *);
 
     void            reupdate_img_list();
 

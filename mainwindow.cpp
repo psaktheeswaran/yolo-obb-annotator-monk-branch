@@ -16,7 +16,7 @@ using std::ofstream;
 using std::ifstream;
 using std::string;
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent, int argc, char *argv[]) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -34,6 +34,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(new QShortcut(QKeySequence(Qt::Key_Delete), this), SIGNAL(activated()), this, SLOT(remove_img()));
 
     init_table_widget();
+
+    if(argc == 3)
+    {
+        std::cout << "Dataset Path: " << argv[1] << std::endl;
+        std::cout << "Label List File Path: " <<  argv[2] << std::endl;
+        open_img_dir(argv[1]);
+        open_obj_file(argv[2]);
+        init();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -334,6 +343,33 @@ void MainWindow::open_img_dir(bool& ret)
     }
 }
 
+void MainWindow::open_img_dir(char* img_dir)
+{
+    QString imgDir(img_dir);
+    QDir dir(imgDir);
+    QCollator collator;
+    collator.setNumericMode(true);
+
+    QStringList fileList = dir.entryList(
+                QStringList() << "*.jpg" << "*.JPG" << "*.png" << "*.bmp",
+                QDir::Files);
+
+    std::sort(fileList.begin(), fileList.end(), collator);
+
+    if(fileList.empty())
+    {
+        pjreddie_style_msgBox(QMessageBox::Critical,"Error", "This folder is empty");
+    }
+    else
+    {
+        m_imgDir    = imgDir;
+        m_imgList  = fileList;
+
+        for(QString& str: m_imgList)
+            str = m_imgDir + "/" + str;
+    }
+}
+
 void MainWindow::open_obj_file(bool& ret)
 {
     pjreddie_style_msgBox(QMessageBox::Information,"Help", "Step 2. Open Your Label List File(*.txt or *.names)");
@@ -356,6 +392,24 @@ void MainWindow::open_obj_file(bool& ret)
     else
     {
         ret = true;
+        load_label_list_data(fileLabelList);
+    }
+}
+
+void MainWindow::open_obj_file(char* file)
+{
+    QString opened_dir;
+    if(m_imgDir.size() > 0) opened_dir = m_imgDir;
+    else opened_dir = QDir::currentPath();
+
+    QString fileLabelList(file);
+
+    if(fileLabelList.size() == 0)
+    {
+        pjreddie_style_msgBox(QMessageBox::Critical,"Error", "LabelList file is not opened()");
+    }
+    else
+    {
         load_label_list_data(fileLabelList);
     }
 }
