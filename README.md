@@ -1,5 +1,15 @@
 # YOLO-Label
-
+https://i7y.org/en/yolov5-with-oriented-bounding-box/
+https://github.com/saktheeswaranswan/yolov5-obb-monk-branch
+https://github.com/saktheeswaranswan/yolov5-ob-monk-branch-2
+https://github.com/ultralytics/ultralytics/issues/4242
+https://docs.ultralytics.com/datasets/obb/dota-v2/#dataset-yaml
+https://docs.ultralytics.com/datasets/obb/
+https://captain-whu.github.io/DOTA/dataset.html
+https://github.com/ultralytics/ultralytics/issues/624
+https://github.com/lilanxiao/Rotated_IoU
+https://github.com/lilanxiao/Rotated_IoU
+https://github.com/open-mmlab/mmrotate
 ## Sponsors
 
 - AIM(https://www.aimdefence.com/)
